@@ -1715,7 +1715,7 @@ if ($messagecode -eq [MESSAGECODE]::Successful) {
 if ($messagecode -eq [MESSAGECODE]::Successful) {
     $prompt_message = RetrieveMessage ([MESSAGECODE]::Confirm_ResizeImages)
     $prompt_title = 'リサイズの有無確認'
-    If (ConfirmYesno $prompt_message) {
+    If (ConfirmYesno $prompt_message $prompt_title) {
         # リサイズ（有効な場合は合わせてWEBP変換）
         $function_parameters = @(
             $setting_parameters[0],
