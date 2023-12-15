@@ -38,6 +38,7 @@ Add-Type -TypeDefinition @"
         Error_NotExistsTargetpath,
         Error_EmptyTargetfolder,
         Error_EmptyResizeValue,
+        Error_ZeroResizeValue,
         Error_NotIntResizeValue,
         Error_MaxRetries,
         Error_EmptyOcrExepath,
@@ -319,9 +320,18 @@ Function ValidateInputValues {
     # リサイズの縦横サイズ
     #   入力チェック
     if ($messagecode -eq [MESSAGECODE]::Successful) {
+        # 未入力の場合
         if (($setting_parameters[1] -eq '') -and
             ($setting_parameters[2] -eq '')) {
             $messagecode = [MESSAGECODE]::Error_EmptyResizeValue
+            $messagebox_messages = RetrieveMessage $messagecode
+            $messagebox_title = '入力チェック'
+            ShowMessagebox $messagebox_messages $messagebox_title
+        }
+        # Zero（0）が入力された場合
+        if (($setting_parameters[1] -eq 0) -or
+            ($setting_parameters[2] -eq 0)) {
+            $messagecode = [MESSAGECODE]::Error_ZeroResizeValue
             $messagebox_messages = RetrieveMessage $messagecode
             $messagebox_title = '入力チェック'
             ShowMessagebox $messagebox_messages $messagebox_title
@@ -612,6 +622,7 @@ Function RetrieveMessage {
         Error_NotExistsTargetpath           {$message='所定の場所に設定ファイルがありません。';break}
         Error_EmptyTargetfolder             {$message='作業フォルダーが空で指定されています。';break}
         Error_EmptyResizeValue              {$message='サイズ指定が空で指定されています。';break}
+        Error_ZeroResizeValue               {$message='サイズ指定でゼロ（0）が指定されています。';break}
         Error_NotIntResizeValue             {$message='サイズ指定が正しい値で設定されていません。';break}
         Error_MaxRetries                    {$message='再試行回数を超過しました。';break}
         Error_EmptyOcrExepath               {$message='設定ファイル内に“OCR実行ファイルの場所”が空で指定されています。';break}
