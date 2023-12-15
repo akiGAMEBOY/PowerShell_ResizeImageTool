@@ -1705,7 +1705,7 @@ if ($messagecode -eq [MESSAGECODE]::Successful) {
 if ($messagecode -eq [MESSAGECODE]::Successful) {
     $prompt_message = RetrieveMessage ([MESSAGECODE]::Confirm_OcrResult)
     $prompt_title = '処理続行の有無確認'
-    If (-Not(ConfirmYesno $prompt_message)) {
+    If (-Not(ConfirmYesno $prompt_message $prompt_title)) {
         # Noの場合にキャンセル
         $messagecode = [MESSAGECODE]::Cancel
     }
